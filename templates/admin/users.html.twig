@@ -3,51 +3,79 @@
 {% block title %}Gestion des utilisateurs{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
 
-    <h1 class="mb-4">Gestion des utilisateurs</h1>
+<div class="container mt-5">
 
-    {% if users is empty %}
-        <p>Aucun utilisateur trouvé.</p>
-    {% else %}
+    <a href="{{ path('app_home') }}" 
+       class="btn btn-outline-secondary mb-4">
+       ← Retour à l'accueil
+    </a>
 
-        <table class="table table-bordered table-striped align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Email</th>
-                    <th>Rôles</th>
-                    <th>Statut</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
+    <div class="card shadow">
+        <div class="card-body">
 
-                {% for user in users %}
-                    <tr>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.roles|join(', ') }}</td>
+            <h2 class="mb-4 text-center">Gestion des utilisateurs</h2>
 
-                        <td>
-                            {% if user.isActive %}
-                                <span class="badge bg-success">Actif</span>
-                            {% else %}
-                                <span class="badge bg-danger">Désactivé</span>
-                            {% endif %}
-                        </td>
+            {% if users is empty %}
+                <div class="alert alert-info text-center">
+                    Aucun utilisateur trouvé.
+                </div>
+            {% else %}
 
-                        <td>
-                            <a href="{{ path('admin_user_toggle', {'id': user.id}) }}"
-                               class="btn btn-sm btn-warning">
-                                Changer statut
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Email</th>
+                                <th>Rôles</th>
+                                <th>Statut</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-            </tbody>
-        </table>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ user.email }}</td>
 
-    {% endif %}
+                                    <td>
+                                        {% for role in user.roles %}
+                                            <span class="badge bg-primary">
+                                                {{ role }}
+                                            </span>
+                                        {% endfor %}
+                                    </td>
+
+                                    <td>
+                                        {% if user.isActive %}
+                                            <span class="badge bg-success">
+                                                Actif
+                                            </span>
+                                        {% else %}
+                                            <span class="badge bg-danger">
+                                                Désactivé
+                                            </span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td class="text-center">
+                                        <a href="{{ path('admin_user_toggle', {'id': user.id}) }}"
+                                           class="btn btn-sm btn-warning">
+                                            Changer statut
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
 
 </div>
+
 {% endblock %}

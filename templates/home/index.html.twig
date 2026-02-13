@@ -8,14 +8,41 @@
     {% if app.user %}
         <h1>Bienvenue {{ app.user.firstname }} 👋</h1>
     {% else %}
-        <h1>Bienvenue sur mon blog 🚀</h1>
+        <h1>Bienvenue sur mon blog </h1>
     {% endif %}
 
-    {# Badge admin #}
+    {#  Espace Admin #}
     {% if is_granted('ROLE_ADMIN') %}
-        <div class="alert alert-success mt-3">
-            Vous êtes administrateur 👑
+
+        <div class="card p-4 mb-4 shadow-sm border-0 bg-light">
+
+            <h5 class="mb-3 text-center">Espace Administration</h5>
+
+            <div class="mb-4 text-center">
+
+                <a href="{{ path('app_post_new') }}"
+                   class="btn btn-primary me-2">
+                    ➕ Nouvel article
+                </a>
+
+                <a href="{{ path('app_category_new') }}"
+                   class="btn btn-warning me-2">
+                    ➕ Nouvelle catégorie
+                </a>
+
+                <a href="{{ path('admin_users') }}"
+                   class="btn btn-dark">
+                    👥 Gérer les utilisateurs
+                </a>
+
+            </div>
+
         </div>
+
+        <div class="alert alert-success text-center">
+             Vous êtes administrateur
+        </div>
+
     {% endif %}
 
     {# 🔎 Barre de recherche #}

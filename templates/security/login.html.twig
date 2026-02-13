@@ -6,15 +6,34 @@
 
 <form method="post" class="mx-auto" style="max-width:400px;">
 
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
     <div class="mb-3">
         <label>Email</label>
-        <input type="email" name="_username" class="form-control" required>
+        <input type="email"
+               name="email"
+               value="{{ last_username }}"
+               class="form-control"
+               required
+               autofocus>
     </div>
 
     <div class="mb-3">
         <label>Mot de passe</label>
-        <input type="password" name="_password" class="form-control" required>
+        <input type="password"
+               name="password"
+               class="form-control"
+               required>
     </div>
+
+    <input type="hidden"
+           name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
 
     <button class="btn btn-primary w-100">
         Se connecter

@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
+
 class UserChecker implements UserCheckerInterface
 {
     public function checkPreAuth(UserInterface $user): void
@@ -25,6 +26,6 @@ class UserChecker implements UserCheckerInterface
 
     public function checkPostAuth(UserInterface $user, ?TokenInterface $token = null): void
     {
-        
+        // R
     }
 }

@@ -21,9 +21,9 @@ class RegistrationController extends AbstractController
         UserPasswordHasherInterface $userPasswordHasher,
         Security $security,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         $user = new User();
+
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -31,17 +31,21 @@ class RegistrationController extends AbstractController
 
             $plainPassword = $form->get('plainPassword')->getData();
 
-            // Hash password
+            // Hash du mot de passe
             $user->setPassword(
                 $userPasswordHasher->hashPassword($user, $plainPassword)
             );
 
-            // ✅ IMPORTANT : définir createdAt
-           $user->setCreatedAt(new \DateTimeImmutable());
+            // Date de création
+            $user->setCreatedAt(new \DateTimeImmutable());
+
+            // ✅ IMPORTANT : activer automatiquement le compte
+            $user->setIsActive(true);
 
             $entityManager->persist($user);
             $entityManager->flush();
 
+            // Connexion automatique après inscription
             return $security->login($user, LoginFormAuthenticator::class, 'main');
         }
 
