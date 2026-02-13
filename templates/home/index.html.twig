@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container mt-4">
+
+    {# Message bienvenue #}
+    {% if app.user %}
+        <h1>Bienvenue {{ app.user.firstname }} 👋</h1>
+    {% else %}
+        <h1>Bienvenue sur mon blog 🚀</h1>
+    {% endif %}
+
+    {# Badge admin #}
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="alert alert-success mt-3">
+            Vous êtes administrateur 👑
+        </div>
+    {% endif %}
+
+    {# 🔎 Barre de recherche #}
+    <form method="get" class="my-4">
+        <div class="input-group">
+            <input type="text"
+                   name="q"
+                   value="{{ search }}"
+                   class="form-control"
+                   placeholder="Rechercher un article...">
+            <button class="btn btn-primary">
+                Rechercher
+            </button>
+        </div>
+    </form>
+
+    <h2 class="mt-5 mb-4">Liste des articles</h2>
+
+    {% if posts is empty %}
+        <div class="alert alert-warning">
+            Aucun article trouvé.
+        </div>
+    {% else %}
+
+        <div class="row">
+            {% for post in posts %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+
+                        {% if post.picture %}
+                            <img src="{{ post.picture }}" 
+                                 class="card-img-top" 
+                                 alt="{{ post.title }}">
+                        {% endif %}
+
+                        <div class="card-body d-flex flex-column">
+
+                            <h5 class="card-title">
+                                {{ post.title }}
+                            </h5>
+
+                            <p class="text-muted mb-2">
+                                Publié le 
+                                {{ post.publishedAt ? post.publishedAt|date('d/m/Y H:i') : '' }}
+                                <br>
+                                Auteur : 
+                                {{ post.author ? post.author.firstname : '—' }}
+                                <br>
+                                Catégorie : 
+                                {{ post.category ? post.category.name : '—' }}
+                            </p>
+
+                            <p class="card-text">
+                                {{ post.content|striptags|length > 200
+                                    ? post.content|striptags|slice(0, 200) ~ '…'
+                                    : post.content|striptags }}
+                            </p>
+
+                            <div class="mt-auto">
+                                <a href="{{ path('app_post_show', {'id': post.id}) }}"
+                                   class="btn btn-primary">
+                                    Lire la suite
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="card shadow mb-4">
+
+    {% if post.picture %}
+        <img src="{{ post.picture }}" class="card-img-top" style="height:350px; object-fit:cover;">
+    {% endif %}
+
+    <div class="card-body">
+
+        <h2>{{ post.title }}</h2>
+
+        <p class="text-muted">
+            Par {{ post.author.firstname }}
+            • {{ post.publishedAt|date('d/m/Y') }}
+        </p>
+
+        <hr>
+
+        <p>{{ post.content }}</p>
+
+    </div>
+</div>
+
+<h4 class="mb-3">💬 Commentaires</h4>
+
+{% for comment in post.comments %}
+    {% if comment.status == 'approved' %}
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+                <strong>{{ comment.user.firstname }}</strong>
+                <small class="text-muted">
+                    - {{ comment.createdAt|date('d/m/Y H:i') }}
+                </small>
+                <p class="mt-2">{{ comment.content }}</p>
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    <p>Aucun commentaire.</p>
+{% endfor %}
+
+{% if app.user %}
+    <div class="card shadow mt-4">
+        <div class="card-body">
+            <h5>Ajouter un commentaire</h5>
+            {{ form(commentForm) }}
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

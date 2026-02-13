@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="text-center mb-5">
+    <h1>📰 Articles</h1>
+    <p>Découvrez nos derniers contenus</p>
+</div>
+
+<div class="row">
+    {% for post in posts %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow h-100">
+
+                {% if post.picture %}
+                    <img src="{{ post.picture }}" class="card-img-top" style="height:220px; object-fit:cover;">
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h5>{{ post.title }}</h5>
+
+                    <p class="small text-muted">
+                        {{ post.publishedAt|date('d/m/Y') }}
+                    </p>
+
+                    <p>
+                        {{ post.content|slice(0,120) }}...
+                    </p>
+
+                    <a href="{{ path('app_post_show', {id: post.id}) }}"
+                       class="btn btn-modern mt-2">
+                        Lire plus
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

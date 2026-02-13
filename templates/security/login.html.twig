@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h2 class="text-center mb-4">🔐 Connexion</h2>
+
+<form method="post" class="mx-auto" style="max-width:400px;">
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email" name="_username" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Mot de passe</label>
+        <input type="password" name="_password" class="form-control" required>
+    </div>
+
+    <button class="btn btn-primary w-100">
+        Se connecter
+    </button>
+
+</form>
+
+{% endblock %}

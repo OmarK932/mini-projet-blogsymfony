@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1>Commentaires en attente</h1>
+
+{% if comments is empty %}
+    <p>Aucun commentaire en attente.</p>
+{% else %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Contenu</th>
+                <th>Auteur</th>
+                <th>Post</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for comment in comments %}
+            <tr>
+                <td>{{ comment.content }}</td>
+                <td>{{ comment.user.firstname }}</td>
+                <td>{{ comment.post.title }}</td>
+                <td>
+                    <a href="{{ path('admin_comment_approve', {'id': comment.id}) }}"
+                       class="btn btn-success btn-sm">
+                        Valider
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+{% endblock %}
